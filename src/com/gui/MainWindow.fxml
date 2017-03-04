@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="550.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.Controller">
+    <top>
+        <MenuBar fx:id="menuBar" cache="true" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="_File">
+                    <items>
+                        <MenuItem fx:id="openFileMenu" mnemonicParsing="false" onAction="#openFileAction"
+                                  text="Open File..."/>
+                        <MenuItem fx:id="resetFileMenu" mnemonicParsing="false" onAction="#resetFileAction"
+                                  text="Reset"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem fx:id="analyzeMenu" disable="true" mnemonicParsing="false" onAction="#doAnalyzeAction"
+                                  text="Analyze"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#closeProgram" text="Exit"/>
+                    </items>
+                </Menu>
+                <!-- <Menu mnemonicParsing="false" text="_Help">
+                   <items>
+                       <MenuItem fx:id="aboutMeMenu" mnemonicParsing="false" text="About Me"/>
+                   </items>
+               </Menu> -->
+           </menus>
+       </MenuBar>
+   </top>
+   <center>
+       <TableView fx:id="myTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+           <columns>
+               <TableColumn fx:id="fileNameColumn" maxWidth="250.0" minWidth="200.0" prefWidth="200.0"
+                            text="File Name"/>
+               <TableColumn fx:id="fileStatusColumn" maxWidth="300.0" minWidth="150.0" prefWidth="250.0"
+                            text="Status"/>
+               <TableColumn fx:id="fileAnalysisColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0"
+                            text="Anslysis"/>
+           </columns>
+       </TableView>
+   </center>
+   <bottom>
+       <HBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+           <Label fx:id="totalFileLabel" text="Total File : "/>
+           <Label fx:id="totalFileNumLabel"/>
+       </HBox>
+   </bottom>
+</BorderPane>

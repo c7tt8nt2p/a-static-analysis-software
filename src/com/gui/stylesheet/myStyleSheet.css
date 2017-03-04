@@ -1,0 +1,19 @@
+.root {
+    -fx-font-size: 16px;
+    -fx-accent: #CCE8FF;
+    -fx-focus-color: #CCE8FF;
+}
+
+.context-menu .deleteMenu > .label {
+    -fx-graphic: url("images/deleteicon.png");
+}
+
+
+.table-view .column-header {
+    -fx-font-weight: bold;
+}
+
+#myTable .table-column {
+    -fx-alignment: center;
+    -fx-font-size: 17px;
+}
