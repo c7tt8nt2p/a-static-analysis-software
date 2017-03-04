@@ -41,7 +41,7 @@ public class Controller implements Initializable {
     public MenuItem resetFileMenu;
     public MenuItem analyzeMenu;
     public MenuItem exitMenu;
-    public MenuItem aboutMeMenu;
+    //public MenuItem aboutMeMenu;
     public TableView<TheFile> myTable;
     public TableColumn<TheFile, String> fileNameColumn;
     public TableColumn<TheFile, String> fileStatusColumn;
