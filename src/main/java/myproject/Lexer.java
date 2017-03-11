@@ -1,11 +1,14 @@
 package myproject;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.Hashtable;
 
 class Lexer {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Lexer.class);
     private BufferedReader myBuffer;
     //private static int startState = 0;
     private char peek = ' ';
@@ -19,7 +22,9 @@ class Lexer {
 
     //private static boolean endOfLine = false;
     private int isForeverLoop = 0;
+
     static {
+        LOGGER.info("Initiating reserved words");
         //################### VARIABLES ###################
         reservedWords.put("bool", "VARIABLE");
         reservedWords.put("byte", "VARIABLE");
@@ -341,7 +346,7 @@ class Lexer {
                         myChar.append(peek);
                         nextChar();
                     } while (peek != '\'');
-                    return new Word(symbols.get(c), "\'" +  myChar.toString() + "\'");
+                    return new Word(symbols.get(c), "\'" + myChar.toString() + "\'");
                 } else if (Character.isLetterOrDigit(peek) || Character.isSpaceChar(peek)) {
                     String tempPeek = String.valueOf(peek);
                     if (nextChar('\''))
