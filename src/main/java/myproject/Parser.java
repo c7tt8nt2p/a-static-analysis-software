@@ -49,9 +49,9 @@ public class Parser {
             Lexer myLex = new Lexer(aPath);
             Token tempToken = myLex.getNextToken();
             while (tempToken != null) {
-                if (tempToken.getType().equalsIgnoreCase("STATEMENT_IF_STATEMENT") &&
+                if (tempToken.getType().equalsIgnoreCase(STATEMENT.IF.getStatementName()) &&
                         lexemeTable.get(lexemeTable.size() - 1).getType()
-                                .equalsIgnoreCase("STATEMENT_ELSE_STATEMENT")) {
+                                .equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
                     //Detect else if statement.
                     lexemeTable.remove(lexemeTable.size() - 1);
                     tempToken = new Word("STATEMENT_ELSE_IF_STATEMENT", "else if");
@@ -87,7 +87,7 @@ public class Parser {
                 tempToken = myLex.getNextToken();
             }
             for (Token key : lexemeTable) {
-                LOGGER.info("TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme() + " --> " + lexemeTable.indexOf(key));
+                LOGGER.info("[" + lexemeTable.indexOf(key) + "]" + " TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme());
             }
         } catch (FileNotFoundException e) {
             LOGGER.error("[Parser.java : 59] File not found.");
@@ -1039,13 +1039,13 @@ public class Parser {
                                 else
                                     statementName = statementName + "_" + parts[i];
                             }
-                            if (aLexemeTable.getType().equalsIgnoreCase("STATEMENT_ELSE_STATEMENT")) {
+                            if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
                                 allStatement.add(new MyStatement("else", "ELSE_STATEMENT"));
                                 currentState = 0;
                             } else if (aLexemeTable.getType().equalsIgnoreCase("STATEMENT_ELSE_IF_STATEMENT")) {
                                 allStatement.add(new MyStatement("else if", "ELSE_IF_STATEMENT"));
                                 currentState = 0;
-                            } else if (aLexemeTable.getType().equalsIgnoreCase("STATEMENT_WHILE_STATEMENT")) {
+                            } else if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
                                 if (!doWhileFlag) {
                                     allStatement.add(new MyStatement("while", "WHILE_STATEMENT"));
                                     currentState = 0;
@@ -1053,7 +1053,7 @@ public class Parser {
                                     doWhileFlag = false;
                                     currentState = 0;
                                 }
-                            } else if (aLexemeTable.getType().equalsIgnoreCase("STATEMENT_DO_STATEMENT")) {
+                            } else if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.DO.getStatementName())) {
                                 doWhileFlag = true;
                                 allStatement.add(new MyStatement("do...while", "DO_WHILE_STATEMENT"));
                                 currentState = 0;
@@ -1086,30 +1086,30 @@ public class Parser {
                 aStatement.append(lexemeTable.get(i).getLexeme());
                 statementList.add(aStatement.toString());
                 aStatement.setLength(0);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_IF_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.IF.getStatementName())) {
                 i = doIf(i, "if");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_ELSE_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
                 i = doElse(i);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_FOR_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.FOR.getStatementName())) {
                 i = doIf(i, "for");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_FOREACH_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.FOREACH.getStatementName())) {
                 i = doIf(i, "foreach");
             } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_ELSE_IF_STATEMENT")) {
                 i = doIf(i, "else if");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_WHILE_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
                 if (!doWhileFlag) {
                     i = doIf(i, "while");
                 } else {
                     i = handleDoWhile(i);
                     doWhileFlag = false; //In order to reuse again.
                 }
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_DO_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.DO.getStatementName())) {
                 doWhileFlag = true;
                 i = doElse(i);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_SWITCH_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.SWITCH.getStatementName())) {
                 i = doIf(i, "switch");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_CASE_STATEMENT") ||
-                    lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_DEFAULT_STATEMENT")) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
+                    lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName())) {
                 i = handleSwitchCaseBlock(i, endIndex) - 1;
                 //without -1 cannot recognize if statement after case.
                 //continue to step over : lexeme.
@@ -1153,8 +1153,8 @@ public class Parser {
         do {
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_CASE_STATEMENT") ||
-                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_DEFAULT_STATEMENT")) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
+                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;
@@ -1175,8 +1175,8 @@ public class Parser {
                     }
                     break;
                 case 2:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_CASE_STATEMENT") ||
-                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_DEFAULT_STATEMENT") ||
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
+                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName()) ||
                             tempTokenIndex == endIndex) {
                         isFoundCase = true;
                         endBodyIndex = tempTokenIndex - 1;
@@ -1272,7 +1272,7 @@ public class Parser {
 
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_IN_STATEMENT")) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.IN.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;
@@ -1364,7 +1364,7 @@ public class Parser {
         do {
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase("STATEMENT_WHILE_STATEMENT")) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;
