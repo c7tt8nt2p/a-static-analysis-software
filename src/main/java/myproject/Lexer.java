@@ -128,7 +128,7 @@ class Lexer {
         try {
             myBuffer = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
         } catch (FileNotFoundException ex) {
-            System.err.println("[Lexer.java : 125] File not found.");
+             LOGGER.error("[Lexer.java : 125] File not found.");
             throw ex;
         }
     }
@@ -137,7 +137,7 @@ class Lexer {
             while (readLineBuffer.readLine() != null)
                 ++numOfLine;
         }
-        System.out.println("NUMBER OF LINE : " + numOfLine);-
+        LOGGER.info("NUMBER OF LINE : " + numOfLine);-
     }*/
 
     //####################################################################################
@@ -150,7 +150,7 @@ class Lexer {
                 } while (currentLine.length() <= 0);
             }
         } catch (NullPointerException ex) {
-            //System.err.println("Test Flow method : readNextLine()");
+            // LOGGER.error("Test Flow method : readNextLine()");
             if (isForeverLoop > 3) {
                 throw new NullPointerException();
             }
@@ -162,7 +162,7 @@ class Lexer {
             ++numOfLine;
         } else {
             if ((currentLine = myBuffer.readLine()) == null) {
-                System.out.println("NUMBER OF LINE : " + numOfLine);
+                LOGGER.info("NUMBER OF LINE : " + numOfLine);
                 System.exit(0);
             } else {
                 ++numOfLine;

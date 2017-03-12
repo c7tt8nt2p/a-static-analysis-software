@@ -20,6 +20,8 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTableColumn;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTableColumns;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTableStyleInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +36,7 @@ import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
 public class Controller implements Initializable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
     private Stage window; //The main window
     public BorderPane borderPane;
     public MenuBar menuBar;
@@ -82,7 +85,7 @@ public class Controller implements Initializable {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                //System.out.println(item + "  " + super.getTableRow().getIndex());
+                //LOGGER.info(item + "  " + super.getTableRow().getIndex());
                 if (item == null || empty) {
                     setText(null);
                     setStyle("");
@@ -142,7 +145,7 @@ public class Controller implements Initializable {
                 checkReportAvailable();
             }
         } catch (Exception ex) {
-            System.err.println("Error during open files.");
+             LOGGER.error("Error during open files.");
             showErrorDialog("Fatal Error", "Something's gone wrong, please try again.");
         }
     }
@@ -164,13 +167,13 @@ public class Controller implements Initializable {
         parserList.clear(); //Clear old parser.
         Parser tempParser;
         for (TheFile aFile : myTable.getItems()) {
-            System.out.println("******************************************" +
+            LOGGER.info("******************************************" +
                     "********************************************");
             tempParser = new Parser(aFile.getFilePath());
             aFile.setAnalysis(tempParser.doParse());
             parserList.add(tempParser);
             doRefreshAnalysisColumn();
-            System.out.println("******************************************" +
+            LOGGER.info("******************************************" +
                     "********************************************");
         }
         //Check wheter analysis is done without error.
@@ -197,7 +200,7 @@ public class Controller implements Initializable {
             bd = bd.setScale(places, RoundingMode.HALF_UP);
             return bd.doubleValue();
         }catch (Exception e) {
-            System.err.println("Error during round() method");
+             LOGGER.error("Error during round() method");
             showErrorDialog("Error", "Something's gone wrong, please try again.");
             return -1.0;
         }
@@ -377,11 +380,11 @@ public class Controller implements Initializable {
                         workbook.write(out);
                         showMessageDialog("Successful", "The report is saved successfully.");
                     } catch (IOException e) {
-                        System.err.println("Error during export an excel file.");
+                         LOGGER.error("Error during export an excel file.");
                         showErrorDialog("Error", "Something's gone wrong, please try again later.");
                         e.printStackTrace();
                     } catch (NullPointerException e) {
-                        System.err.println("Error during export an excel file.");
+                         LOGGER.error("Error during export an excel file.");
                         showErrorDialog("Error", "(NullPointerException) Please try again.");
                         e.printStackTrace();
                     }

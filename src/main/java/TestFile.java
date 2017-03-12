@@ -24,7 +24,7 @@ public class TestFile {
                 System.out.print("("+i+")");
 
                 // prints string
-                System.out.println(str);
+                System.out.print(str);
             }
         }catch(Exception e){
 

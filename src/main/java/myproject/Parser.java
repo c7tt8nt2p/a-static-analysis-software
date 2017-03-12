@@ -1,6 +1,8 @@
 package myproject;
 
 import list.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -10,6 +12,7 @@ import java.util.List;
 
 
 public class Parser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
     private List<Token> lexemeTable = new ArrayList<>();
     private List<MyMethod> allMethod = new ArrayList<>();
     private List<MyVariable> allVariable = new ArrayList<>(); //Temp only
@@ -74,7 +77,7 @@ public class Parser {
                                 lexemeTable.remove(lexemeTable.size() - 1);
                                 tempToken = new Real("NUM", tempReal);
                             } else {
-                                System.err.println("Error during detecting negative integer, lexeme : " + tempToken.getLexeme());
+                                LOGGER.error("Error during detecting negative integer, lexeme : " + tempToken.getLexeme());
                             }
                             break;
                         }
@@ -84,14 +87,14 @@ public class Parser {
                 tempToken = myLex.getNextToken();
             }
             for (Token key : lexemeTable) {
-                System.out.println("TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme() + " --> " + lexemeTable.indexOf(key));
+                LOGGER.info("TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme() + " --> " + lexemeTable.indexOf(key));
             }
         } catch (FileNotFoundException e) {
-            System.err.println("[Parser.java : 59] File not found.");
+            LOGGER.error("[Parser.java : 59] File not found.");
             return "Error";
             //e.printStackTrace();
         } catch (IOException e) {
-            System.err.println("[Parser.java : 63] IOException.");
+            LOGGER.error("[Parser.java : 63] IOException.");
             return "Error";
         }
 
@@ -109,9 +112,9 @@ public class Parser {
     }
 
     private void doPrintStuff() {
-        System.out.println("===================== METHODS =====================");
+        LOGGER.info("===================== METHODS =====================");
         allMethod.forEach((i) ->
-                System.out.println(i.getAccessModifier() + " " +
+                LOGGER.info(i.getAccessModifier() + " " +
                         i.getStaticMethod() + " " +
                         i.getReturnType() + " " +
                         i.getMethodName() + " " +
@@ -119,29 +122,29 @@ public class Parser {
                         i.getParameterName() + " " +
                         i.getStartIndex() + " " +
                         i.getEndIndex()));
-        System.out.println("=================== GLOBAL VARS ===================");
+        LOGGER.info("=================== GLOBAL VARS ===================");
         /*allVariable.forEach((i) ->
-                System.out.println(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
-        System.out.println("----");*/
+                LOGGER.info(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
+        LOGGER.info("----");*/
         allGlobalVariable.forEach((i) ->
-                System.out.println(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
-        System.out.println("==================== LOCAL VARS ===================");
+                LOGGER.info(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
+        LOGGER.info("==================== LOCAL VARS ===================");
         allLocalVariable.forEach((i) ->
-                System.out.println(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
-        System.out.println("==================== OPERATORS ====================");
+                LOGGER.info(i.getVarType() + " " + i.getVarName() + " " + i.getMethodScope()));
+        LOGGER.info("==================== OPERATORS ====================");
         allOperator.forEach((i) ->
-                System.out.println(i.getOperatorSymbol() + " " + i.getOperatorName()));
-        System.out.println("==================== STATEMENTS ===================");
+                LOGGER.info(i.getOperatorSymbol() + " " + i.getOperatorName()));
+        LOGGER.info("==================== STATEMENTS ===================");
         allStatement.forEach((i) ->
-                System.out.println(i.getStatementSymbol() + " " + i.getStatementName()));
-        System.out.println("====================== BLOCKS =====================");
-        allBlock.forEach((i) -> System.out.println("{" + i.getMethodScope() + "} : " + i.getData()));
-        System.out.println("==================== LOOPS ===================");
-        System.out.println("Number of Loops : " + getLoop());
+                LOGGER.info(i.getStatementSymbol() + " " + i.getStatementName()));
+        LOGGER.info("====================== BLOCKS =====================");
+        allBlock.forEach((i) -> LOGGER.info("{" + i.getMethodScope() + "} : " + i.getData()));
+        LOGGER.info("==================== LOOPS ===================");
+        LOGGER.info("Number of Loops : " + getLoop());
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("///////////////////////////DEBUGGING///////////////////////////");
+        LOGGER.info("///////////////////////////DEBUGGING///////////////////////////");
         //For debugging.
         /*String filePath = "D:\\IdeaProjects\\SeniorProject_FX\\src\\com\\myproject\\resources\\EX_Code.cs";
         Lexer myLex = new Lexer(filePath);
@@ -149,11 +152,11 @@ public class Parser {
         while (tempToken != null) {
             //tableOfLexemes.put(tempToken.getLexeme(), tempToken.getType());
             lexemeTable.add(tempToken);
-            //System.out.println("TYPE : " + tempToken.getType() + ", LEXEME : " + tempToken.getLexeme());
+            //LOGGER.info("TYPE : " + tempToken.getType() + ", LEXEME : " + tempToken.getLexeme());
             tempToken = myLex.getNextToken();
         }
         for (Token key : lexemeTable) {
-            System.out.println("TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme() + " --> " + lexemeTable.indexOf(key));
+            LOGGER.info("TYPE : " + key.getType() + "  LEXEME : " + key.getLexeme() + " --> " + lexemeTable.indexOf(key));
         }
         getTotalMethod();
         getVariable();
@@ -350,7 +353,7 @@ public class Parser {
                     break;
                 default:
                     break;
-                //System.out.println(accessModifier + " " + staticMethod + " " + returnType + " " + methodName);
+                //LOGGER.info(accessModifier + " " + staticMethod + " " + returnType + " " + methodName);
             }
         }
     }
@@ -362,7 +365,7 @@ public class Parser {
         String varType = "";
         String varName = "";
         for (Token aLexemeTable : lexemeTable) {
-            //System.out.println(aLexemeTable.getLexeme());
+            //LOGGER.info(aLexemeTable.getLexeme());
             switch (currentState) {
                 case 0:
                     varType = "";
@@ -438,7 +441,7 @@ public class Parser {
                         /*if (aLexemeTable.getLexeme().equalsIgnoreCase("m")) { // for decimal suffix.
                             currentState = 4;
                         }else {
-                            System.out.println("OK");
+                            LOGGER.info("OK");
                             varName = aLexemeTable.getLexeme();
                             allVariable.add(new MyVariable(varType, varName));
                             currentState = 4;
@@ -504,7 +507,7 @@ public class Parser {
                     } else {
                         //ACCEPT STATE
                         allVariable.add(new MyVariable(varType, varName));
-                        //System.out.println(varType + " " + varName);
+                        //LOGGER.info(varType + " " + varName);
                         currentState = 0;
                     }
                     break;
@@ -661,7 +664,7 @@ public class Parser {
                             }
                         }
                     } else {
-                        //System.out.println("OKK " + aLexemeTable.getLexeme());
+                        //LOGGER.info("OKK " + aLexemeTable.getLexeme());
                         currentState = 8;
                     }
                     break;
@@ -772,7 +775,7 @@ public class Parser {
                     } else {
                         //ACCEPT STATE
                         allLocalVariable.add(new MyVariable(localVarType, localVarName, methodName));
-                        //System.out.println(varType + " " + varName);
+                        //LOGGER.info(varType + " " + varName);
                         currentState = 8;
                     }
                     break;
@@ -789,7 +792,7 @@ public class Parser {
             }
         }
         allGlobalVariable.addAll(allVariable);
-        //System.out.println(allGlobalVariable.toString());
+        //LOGGER.info(allGlobalVariable.toString());
         List<MyVariable> varAddressTemp = new LinkedList<>(); // Store deleted object address
         for (MyVariable aAllLocalVariable : allLocalVariable) {
             for (int j = allVariable.size() - 1; j >= 0; j--) {
@@ -801,9 +804,9 @@ public class Parser {
                         break;
                     }
                     // Remove by object address
-                   /* System.out.println("... " + allVariable.get(j) + " ..... " + allVariable.get(j).getVarType() + " ....." + allVariable.get(j).getVarName());
+                   /* LOGGER.info("... " + allVariable.get(j) + " ..... " + allVariable.get(j).getVarType() + " ....." + allVariable.get(j).getVarName());
                     allGlobalVariable.remove(allVariable.get(j));
-                    System.out.println(allGlobalVariable.toString());
+                    LOGGER.info(allGlobalVariable.toString());
                     break;*/
                 }
             }
@@ -846,7 +849,7 @@ public class Parser {
                                 allOperator.add(new MyOperator(operatorSymbol, operatorName));
                             }
                         } catch (ArrayIndexOutOfBoundsException c) {
-                            System.err.println("Somethings gone wrong.");
+                            LOGGER.error("Somethings gone wrong.");
                         }
                     } else {
                         currentState = 0;
@@ -947,13 +950,13 @@ public class Parser {
                 }
             }
         }
-        System.out.println("********* OPERATOR *********");
+        LOGGER.info("********* OPERATOR *********");
         for (MyPair<String, Integer> aPair : theOperatorList) {
-            System.out.println(aPair.getL() + " : " + aPair.getR());
+            LOGGER.info(aPair.getL() + " : " + aPair.getR());
         }
-        System.out.println("********* OPERAND *********");
+        LOGGER.info("********* OPERAND *********");
         for (MyPair<String, Integer> aPair : theOperandList) {
-            System.out.println(aPair.getL() + " : " + aPair.getR());
+            LOGGER.info(aPair.getL() + " : " + aPair.getR());
         }
 
 
@@ -993,12 +996,12 @@ public class Parser {
         //Check if operator or operand does exist?
         for (MyPair<String, Integer> aPair : theOperatorList) {
             if (aPair.getL().equals(lexeme)) {
-                System.out.println("Duplicate Operator at " + lexeme);
+                LOGGER.info("Duplicate Operator at " + lexeme);
                 aPair.setR(aPair.getR() + 1);
                 return;
             }
         }
-        System.out.println("OPRATOR ADDED OK " + lexeme);
+        LOGGER.info("OPRATOR ADDED OK " + lexeme);
         theOperatorList.add(new MyPair<>(lexeme, 1));
     }
 
@@ -1007,12 +1010,12 @@ public class Parser {
         //Check if operator or operand does exist?
         for (MyPair<String, Integer> aPair : theOperandList) {
             if (aPair.getL().equals(lexeme)) {
-                System.out.println("Duplicate Operand at " + lexeme);
+                LOGGER.info("Duplicate Operand at " + lexeme);
                 aPair.setR(aPair.getR() + 1);
                 return;
             }
         }
-        System.out.println("..OPERAND.. ADDED OK " + lexeme);
+        LOGGER.info("..OPERAND.. ADDED OK " + lexeme);
         theOperandList.add(new MyPair<>(lexeme, 1));
     }
 
@@ -1059,7 +1062,7 @@ public class Parser {
                                 currentState = 0;
                             }
                         } catch (ArrayIndexOutOfBoundsException c) {
-                            System.err.println("Somethings gone wrong.");
+                            LOGGER.error("Somethings gone wrong.");
                         }
                     } else {
                         currentState = 0;
@@ -1114,7 +1117,7 @@ public class Parser {
                 /*if (lexemeTable.get(i).getType().equalsIgnoreCase("LB") ||
                         lexemeTable.get(i).getType().equalsIgnoreCase("RB"))
                     continue;*/
-                //System.out.println(lexemeTable.get(i).getLexeme());
+                //LOGGER.info(lexemeTable.get(i).getLexeme());
                 if (lexemeTable.get(i).getType().equalsIgnoreCase("VARIABLE"))
                     ignoreBracket = false;
                 if ((lexemeTable.get(i).getType().equalsIgnoreCase("LB") ||
@@ -1132,13 +1135,13 @@ public class Parser {
         }
         addNode(); //ADD NEW NODE********
 
-        /*System.out.println("STATEMENT");
+        /*LOGGER.info("STATEMENT");
         for (Node aNode : statementNodeStack) {
-            System.out.println(aNode.getData());
+            LOGGER.info(aNode.getData());
         }
-        System.out.println("CONDITION");
+        LOGGER.info("CONDITION");
         for (Node aNode : conditionNodeStack) {
-            System.out.println(aNode.getData());
+            LOGGER.info(aNode.getData());
         }*/
     }
 
@@ -1294,10 +1297,10 @@ public class Parser {
     private int determineBodyScope(int startIndex) {
         //Check whether it's conditional statement with or without bracket.
         if (lexemeTable.get(startIndex).getType().equalsIgnoreCase("LB")) {
-            System.out.println("determineBodyScope MULTI");
+            LOGGER.info("determineBodyScope MULTI");
             return getMultipleBodyScope(startIndex);
         } else {
-            System.out.println("determineBodyScope SINGLE");
+            LOGGER.info("determineBodyScope SINGLE");
             return getSingleBodyScope(startIndex);
         }
     }
@@ -1346,8 +1349,8 @@ public class Parser {
 
     private int doElse(int startIndex) {
         int endBodyIndex = determineBodyScope(startIndex + 1);
-        //System.out.println(startBodyIndex + " " + endBodyIndex);
-        //System.out.println(startIndex + 1 + " " + endBodyIndex);
+        //LOGGER.info(startBodyIndex + " " + endBodyIndex);
+        //LOGGER.info(startIndex + 1 + " " + endBodyIndex);
         constructBlock(startIndex + 1, endBodyIndex); // +1 to skip else token
         return endBodyIndex;
     }
@@ -1401,7 +1404,7 @@ public class Parser {
     private void prepareNode() {
         /*for (MyMethod aMethod : allMethod) { // iterate each method
             constructBlock(aMethod.getStartIndex(), aMethod.getEndIndex(), null);
-            System.out.println("=============================");
+            LOGGER.info("=============================");
         }*/
         for (MyMethod aMethod : allMethod) {
             methodScope = aMethod.getMethodName();
@@ -1530,7 +1533,7 @@ public class Parser {
             while ((lineReader.readLine()) != null)
                 totalLines = lineReader.getLineNumber();
         } catch (Exception e) {
-            System.err.println("Error during getLOC.");
+            LOGGER.error("Error during getLOC.");
             e.printStackTrace();
         }
         return totalLines;
