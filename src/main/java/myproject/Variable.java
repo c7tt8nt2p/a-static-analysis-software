@@ -1,6 +1,6 @@
 package myproject;
 
-public enum VARIABLE {
+public enum Variable {
     VAR_bool("bool"),
     VAR_byte("byte"),
     VAR_sbyte("sbyte"),
@@ -39,7 +39,7 @@ public enum VARIABLE {
 
     private String variableName;
 
-    VARIABLE(String variableName) {
+    Variable(String variableName) {
         this.variableName = variableName;
     }
 

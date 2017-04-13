@@ -1,6 +1,6 @@
 package myproject;
 
-public enum STATEMENT {
+public enum Statement {
     IF("if", "STATEMENT_IF_STATEMENT"), ELSE("else", "STATEMENT_ELSE_STATEMENT"),
     FOR("for", "STATEMENT_FOR_STATEMENT"), FOREACH("foreach", "STATEMENT_FOREACH_STATEMENT"),
     IN("in", "STATEMENT_IN_STATEMENT"), WHILE("while", "STATEMENT_WHILE_STATEMENT"),
@@ -10,7 +10,7 @@ public enum STATEMENT {
     private String statementLexeme;
     private String statementName;
 
-    STATEMENT(String statementLexeme, String statementName) {
+    Statement(String statementLexeme, String statementName) {
         this.statementLexeme = statementLexeme;
         this.statementName = statementName;
     }

@@ -49,9 +49,9 @@ public class Parser {
             Lexer myLex = new Lexer(aPath);
             Token tempToken = myLex.getNextToken();
             while (tempToken != null) {
-                if (tempToken.getType().equalsIgnoreCase(STATEMENT.IF.getStatementName()) &&
+                if (tempToken.getType().equalsIgnoreCase(Statement.IF.getStatementName()) &&
                         lexemeTable.get(lexemeTable.size() - 1).getType()
-                                .equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
+                                .equalsIgnoreCase(Statement.ELSE.getStatementName())) {
                     //Detect else if statement.
                     lexemeTable.remove(lexemeTable.size() - 1);
                     tempToken = new Word("STATEMENT_ELSE_IF_STATEMENT", "else if");
@@ -211,7 +211,7 @@ public class Parser {
                         // Starts with modifier
                         accessModifier = aLexemeTable.getLexeme();
                         currentState = 2;
-                    } else if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                    } else if (aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             (aLexemeTable.getType().equalsIgnoreCase("VOID")) ||
                             (aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED"))) {
                         // Starts with return type
@@ -227,7 +227,7 @@ public class Parser {
                         accessModifier = aLexemeTable.getLexeme();
                         currentState = 3;
                     } else if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         returnType = aLexemeTable.getLexeme();
                         currentState = 4;
@@ -242,7 +242,7 @@ public class Parser {
                     } else {
                         staticMethod = "(non-static)";
                         if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                                aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                                aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                                 aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                             returnType = aLexemeTable.getLexeme();
                             currentState = 4;
@@ -253,7 +253,7 @@ public class Parser {
                     break;
                 case 3:
                     if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         returnType = aLexemeTable.getLexeme();
                         currentState = 4;
@@ -279,7 +279,7 @@ public class Parser {
                     break;
                 case 6:
                     // Parameter List
-                    if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                    if (aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         parameterType.add(aLexemeTable.getLexeme());
                         currentState = 7;
@@ -309,7 +309,7 @@ public class Parser {
                     }
                     break;
                 case 9:
-                    if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                    if (aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         parameterType.add(aLexemeTable.getLexeme());
                         currentState = 7;
@@ -370,7 +370,7 @@ public class Parser {
                 case 0:
                     varType = "";
                     varName = "";
-                    if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE")) {
+                    if (aLexemeTable.getType().equalsIgnoreCase("Variable")) {
                         if (lexemeTable.indexOf(aLexemeTable) == 0) {
                             currentState = 1;
                             varType = aLexemeTable.getLexeme();
@@ -424,7 +424,7 @@ public class Parser {
                     } else if (aLexemeTable.getType().equalsIgnoreCase("OPERATOR_SUBTRACTION")) {
                         currentState = 10;
                     } else if (aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("LB") ||
                             aLexemeTable.getType().equalsIgnoreCase("LP")) {
                         currentState = 5;
@@ -557,7 +557,7 @@ public class Parser {
                     } else if (aLexemeTable.getType().equalsIgnoreCase("MODIFIER")) {
                         // Starts with modifier
                         currentState = 2;
-                    } else if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                    } else if (aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             (aLexemeTable.getType().equalsIgnoreCase("VOID")) ||
                             (aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED"))) {
                         // Starts with return type
@@ -571,7 +571,7 @@ public class Parser {
                     if (aLexemeTable.getType().equalsIgnoreCase("MODIFIER")) {
                         currentState = 3;
                     } else if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         currentState = 4;
                     } else {
@@ -583,7 +583,7 @@ public class Parser {
                         currentState = 3;
                     } else {
                         if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                                aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                                aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                                 aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                             currentState = 4;
                         } else {
@@ -593,7 +593,7 @@ public class Parser {
                     break;
                 case 3:
                     if (aLexemeTable.getType().equalsIgnoreCase("VOID") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED")) {
                         currentState = 4;
                     } else {
@@ -618,7 +618,7 @@ public class Parser {
                     break;
                 case 6:
                     // Parameter List
-                    /*if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                    /*if (aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED") ||
                             aLexemeTable.getType().equalsIgnoreCase("LSB") ||
                             aLexemeTable.getType().equalsIgnoreCase("RSB") ||
@@ -648,7 +648,7 @@ public class Parser {
                 case 8:
                     localVarType = "";
                     localVarName = "";
-                    if (aLexemeTable.getType().equalsIgnoreCase("VARIABLE")) {
+                    if (aLexemeTable.getType().equalsIgnoreCase("Variable")) {
                         if (lexemeTable.indexOf(aLexemeTable) == 0) {
                             currentState = 9;
                             localVarType = aLexemeTable.getLexeme();
@@ -703,7 +703,7 @@ public class Parser {
                     } else if (aLexemeTable.getType().equalsIgnoreCase("OPERATOR_SUBTRACTION")) {
                         currentState = 18;
                     } else if (aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE") ||
+                            aLexemeTable.getType().equalsIgnoreCase("Variable") ||
                             aLexemeTable.getType().equalsIgnoreCase("LB") ||
                             aLexemeTable.getType().equalsIgnoreCase("LP")) {
                         currentState = 13;
@@ -828,25 +828,25 @@ public class Parser {
     private void getOperator() {
         int currentState = 0;
         String operatorSymbol;
-        String operatorName;
+        StringBuilder operatorName;
         for (Token aLexemeTable : lexemeTable) {
             switch (currentState) {
                 case 0:
-                    operatorName = "";
+                    operatorName = new StringBuilder();
                     if (aLexemeTable.getType().contains("OPERATOR_")) {
                         try {
                             String[] parts = aLexemeTable.getType().split("_");
                             operatorSymbol = aLexemeTable.getLexeme();
                             for (int i = 1; i < parts.length; i++) {
                                 if (i == 1)
-                                    operatorName = operatorName + parts[i];
+                                    operatorName.append(parts[i]);
                                 else
-                                    operatorName = operatorName + "_" + parts[i];
+                                    operatorName.append("_").append(parts[i]);
                             }
                             if (operatorSymbol.equals("<")) {
                                 currentState = 1;
                             } else {
-                                allOperator.add(new MyOperator(operatorSymbol, operatorName));
+                                allOperator.add(new MyOperator(operatorSymbol, operatorName.toString()));
                             }
                         } catch (ArrayIndexOutOfBoundsException c) {
                             LOGGER.error("Somethings gone wrong.");
@@ -857,7 +857,7 @@ public class Parser {
                     break;
                 case 1:
                     if (aLexemeTable.getType().equalsIgnoreCase("IDENTIFIER/UNDEFINED") ||
-                            aLexemeTable.getType().equalsIgnoreCase("VARIABLE")) {
+                            aLexemeTable.getType().equalsIgnoreCase("Variable")) {
                         currentState = 2;
                     } else if (aLexemeTable.getType().equalsIgnoreCase("OPERATOR_GT")) {
                         currentState = 0;
@@ -1024,28 +1024,29 @@ public class Parser {
     private void getStatement() {
         int currentState = 0;
         String statementSymbol;
-        String statementName;
+        StringBuilder statementName;
         for (Token aLexemeTable : lexemeTable) {
             switch (currentState) {
                 case 0:
-                    statementName = "";
+                    statementName = new StringBuilder();
                     if (aLexemeTable.getType().contains("STATEMENT_")) {
                         try {
                             String[] parts = aLexemeTable.getType().split("_");
                             statementSymbol = aLexemeTable.getLexeme();
                             for (int i = 1; i < parts.length; i++) {
                                 if (i == 1)
-                                    statementName = statementName + parts[i];
-                                else
-                                    statementName = statementName + "_" + parts[i];
+                                    statementName.append(parts[i]);
+                                else {
+                                    statementName.append("_").append(parts[i]);
+                                }
                             }
-                            if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
+                            if (aLexemeTable.getType().equalsIgnoreCase(Statement.ELSE.getStatementName())) {
                                 allStatement.add(new MyStatement("else", "ELSE_STATEMENT"));
                                 currentState = 0;
                             } else if (aLexemeTable.getType().equalsIgnoreCase("STATEMENT_ELSE_IF_STATEMENT")) {
                                 allStatement.add(new MyStatement("else if", "ELSE_IF_STATEMENT"));
                                 currentState = 0;
-                            } else if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
+                            } else if (aLexemeTable.getType().equalsIgnoreCase(Statement.WHILE.getStatementName())) {
                                 if (!doWhileFlag) {
                                     allStatement.add(new MyStatement("while", "WHILE_STATEMENT"));
                                     currentState = 0;
@@ -1053,12 +1054,12 @@ public class Parser {
                                     doWhileFlag = false;
                                     currentState = 0;
                                 }
-                            } else if (aLexemeTable.getType().equalsIgnoreCase(STATEMENT.DO.getStatementName())) {
+                            } else if (aLexemeTable.getType().equalsIgnoreCase(Statement.DO.getStatementName())) {
                                 doWhileFlag = true;
                                 allStatement.add(new MyStatement("do...while", "DO_WHILE_STATEMENT"));
                                 currentState = 0;
                             } else {
-                                allStatement.add(new MyStatement(statementSymbol, statementName));
+                                allStatement.add(new MyStatement(statementSymbol, statementName.toString()));
                                 currentState = 0;
                             }
                         } catch (ArrayIndexOutOfBoundsException c) {
@@ -1086,30 +1087,30 @@ public class Parser {
                 aStatement.append(lexemeTable.get(i).getLexeme());
                 statementList.add(aStatement.toString());
                 aStatement.setLength(0);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.IF.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.IF.getStatementName())) {
                 i = doIf(i, "if");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.ELSE.getStatementName())) {
                 i = doElse(i);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.FOR.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.FOR.getStatementName())) {
                 i = doIf(i, "for");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.FOREACH.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.FOREACH.getStatementName())) {
                 i = doIf(i, "foreach");
             } else if (lexemeTable.get(i).getType().equalsIgnoreCase("STATEMENT_ELSE_IF_STATEMENT")) {
                 i = doIf(i, "else if");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.WHILE.getStatementName())) {
                 if (!doWhileFlag) {
                     i = doIf(i, "while");
                 } else {
                     i = handleDoWhile(i);
                     doWhileFlag = false; //In order to reuse again.
                 }
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.DO.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.DO.getStatementName())) {
                 doWhileFlag = true;
                 i = doElse(i);
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.SWITCH.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.SWITCH.getStatementName())) {
                 i = doIf(i, "switch");
-            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
-                    lexemeTable.get(i).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName())) {
+            } else if (lexemeTable.get(i).getType().equalsIgnoreCase(Statement.CASE.getStatementName()) ||
+                    lexemeTable.get(i).getType().equalsIgnoreCase(Statement.DEFAULT.getStatementName())) {
                 i = handleSwitchCaseBlock(i, endIndex) - 1;
                 //without -1 cannot recognize if statement after case.
                 //continue to step over : lexeme.
@@ -1118,7 +1119,7 @@ public class Parser {
                         lexemeTable.get(i).getType().equalsIgnoreCase("RB"))
                     continue;*/
                 //LOGGER.info(lexemeTable.get(i).getLexeme());
-                if (lexemeTable.get(i).getType().equalsIgnoreCase("VARIABLE"))
+                if (lexemeTable.get(i).getType().equalsIgnoreCase("Variable"))
                     ignoreBracket = false;
                 if ((lexemeTable.get(i).getType().equalsIgnoreCase("LB") ||
                         lexemeTable.get(i).getType().equalsIgnoreCase("RB")) && !ignoreBracket) {
@@ -1135,7 +1136,7 @@ public class Parser {
         }
         addNode(); //ADD NEW NODE********
 
-        /*LOGGER.info("STATEMENT");
+        /*LOGGER.info("Statement");
         for (Node aNode : statementNodeStack) {
             LOGGER.info(aNode.getData());
         }
@@ -1153,8 +1154,8 @@ public class Parser {
         do {
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
-                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName())) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.CASE.getStatementName()) ||
+                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.DEFAULT.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;
@@ -1175,8 +1176,8 @@ public class Parser {
                     }
                     break;
                 case 2:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.CASE.getStatementName()) ||
-                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.DEFAULT.getStatementName()) ||
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.CASE.getStatementName()) ||
+                            lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.DEFAULT.getStatementName()) ||
                             tempTokenIndex == endIndex) {
                         isFoundCase = true;
                         endBodyIndex = tempTokenIndex - 1;
@@ -1272,7 +1273,7 @@ public class Parser {
 
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.IN.getStatementName())) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.IN.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;
@@ -1364,7 +1365,7 @@ public class Parser {
         do {
             switch (currentState) {
                 case 0:
-                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(STATEMENT.WHILE.getStatementName())) {
+                    if (lexemeTable.get(tempTokenIndex).getType().equalsIgnoreCase(Statement.WHILE.getStatementName())) {
                         currentState = 1;
                     } else {
                         currentState = 0;

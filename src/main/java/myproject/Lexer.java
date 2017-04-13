@@ -26,8 +26,8 @@ class Lexer {
     static {
         LOGGER.info("Initiating reserved words");
         //################### VARIABLES ###################
-        for (VARIABLE aVariable : VARIABLE.values()) {
-            reservedWords.put(aVariable.getVariableName(), "VARIABLE");
+        for (Variable aVariable : Variable.values()) {
+            reservedWords.put(aVariable.getVariableName(), "Variable");
         }
         //#################################################
 
@@ -47,20 +47,20 @@ class Lexer {
         //reservedWords.put("protected internal", "MODIFIER");
         //#################################################
 
-        //################### STATEMENT ###################
-        for (STATEMENT aStatement : STATEMENT.values()) {
+        //################### Statement ###################
+        for (Statement aStatement : Statement.values()) {
             reservedWords.put(aStatement.getStatementLexeme(), aStatement.getStatementName());
         }
-        /*reservedWords.put(STATEMENT.IF.getStatementLexeme(), STATEMENT.IF.getStatementName());
-        reservedWords.put(STATEMENT.ELSE.getStatementLexeme(), STATEMENT.ELSE.getStatementName());
-        reservedWords.put(STATEMENT.FOR.getStatementLexeme(), STATEMENT.FOR.getStatementName());
-        reservedWords.put(STATEMENT.FOREACH.getStatementLexeme(), STATEMENT.FOREACH.getStatementName());
-        reservedWords.put(STATEMENT.IN.getStatementLexeme(), STATEMENT.IN.getStatementName());
-        reservedWords.put(STATEMENT.WHILE.getStatementLexeme(), STATEMENT.WHILE.getStatementName());
-        reservedWords.put(STATEMENT.DO.getStatementLexeme(), STATEMENT.DO.getStatementName());
-        reservedWords.put(STATEMENT.SWITCH.getStatementLexeme(), STATEMENT.SWITCH.getStatementName());
-        reservedWords.put(STATEMENT.CASE.getStatementLexeme(), STATEMENT.CASE.getStatementName());
-        reservedWords.put(STATEMENT.DEFAULT.getStatementLexeme(), STATEMENT.DEFAULT.getStatementName());*/
+        /*reservedWords.put(Statement.IF.getStatementLexeme(), Statement.IF.getStatementName());
+        reservedWords.put(Statement.ELSE.getStatementLexeme(), Statement.ELSE.getStatementName());
+        reservedWords.put(Statement.FOR.getStatementLexeme(), Statement.FOR.getStatementName());
+        reservedWords.put(Statement.FOREACH.getStatementLexeme(), Statement.FOREACH.getStatementName());
+        reservedWords.put(Statement.IN.getStatementLexeme(), Statement.IN.getStatementName());
+        reservedWords.put(Statement.WHILE.getStatementLexeme(), Statement.WHILE.getStatementName());
+        reservedWords.put(Statement.DO.getStatementLexeme(), Statement.DO.getStatementName());
+        reservedWords.put(Statement.SWITCH.getStatementLexeme(), Statement.SWITCH.getStatementName());
+        reservedWords.put(Statement.CASE.getStatementLexeme(), Statement.CASE.getStatementName());
+        reservedWords.put(Statement.DEFAULT.getStatementLexeme(), Statement.DEFAULT.getStatementName());*/
 
         //#################################################
 
@@ -360,7 +360,7 @@ class Lexer {
             if (reservedWords.containsKey(myLexeme)) {
                 //if (!endOfLine)
                 /*if (myLexeme.equalsIgnoreCase("if") && Parser.lexemeTable.get
-                        (Parser.lexemeTable.size()-1).getType().equalsIgnoreCase(STATEMENT.ELSE.getStatementName())) {
+                        (Parser.lexemeTable.size()-1).getType().equalsIgnoreCase(Statement.ELSE.getStatementName())) {
                     //In case of "else if" statement.
 
                     currentLine = tempToken;
