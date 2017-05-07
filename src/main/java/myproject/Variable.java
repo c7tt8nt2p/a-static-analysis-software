@@ -1,5 +1,6 @@
 package myproject;
 
+@SuppressWarnings("SpellCheckingInspection")
 public enum Variable {
     VAR_bool("bool"),
     VAR_byte("byte"),
