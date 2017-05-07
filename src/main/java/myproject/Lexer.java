@@ -18,7 +18,7 @@ class Lexer {
 
     //Shared variables
     private static Hashtable<String, String> reservedWords = new Hashtable<>();
-    private static Hashtable<Character, String> symbols = new Hashtable<>();
+    private static Hashtable<String, String> symbols = new Hashtable<>();
 
     //private static boolean endOfLine = false;
     private int isForeverLoop = 0;
@@ -26,11 +26,8 @@ class Lexer {
     static {
         LOGGER.info("Initiating reserved words");
         //################### VARIABLES ###################
-        for (Variable aVariable : Variable.values()) {
+        for (Variable aVariable : Variable.values())
             reservedWords.put(aVariable.getVariableName(), "Variable");
-        }
-        //#################################################
-
         //################### CLASS ###################
         reservedWords.put("class", "CLASS");
         reservedWords.put("public", "MODIFIER");
@@ -45,65 +42,19 @@ class Lexer {
         reservedWords.put("namespace", "NAMESPACE");
 
         //reservedWords.put("protected internal", "MODIFIER");
-        //#################################################
-
         //################### Statement ###################
-        for (Statement aStatement : Statement.values()) {
+        for (Statement aStatement : Statement.values())
             reservedWords.put(aStatement.getStatementLexeme(), aStatement.getStatementName());
-        }
-        /*reservedWords.put(Statement.IF.getStatementLexeme(), Statement.IF.getStatementName());
-        reservedWords.put(Statement.ELSE.getStatementLexeme(), Statement.ELSE.getStatementName());
-        reservedWords.put(Statement.FOR.getStatementLexeme(), Statement.FOR.getStatementName());
-        reservedWords.put(Statement.FOREACH.getStatementLexeme(), Statement.FOREACH.getStatementName());
-        reservedWords.put(Statement.IN.getStatementLexeme(), Statement.IN.getStatementName());
-        reservedWords.put(Statement.WHILE.getStatementLexeme(), Statement.WHILE.getStatementName());
-        reservedWords.put(Statement.DO.getStatementLexeme(), Statement.DO.getStatementName());
-        reservedWords.put(Statement.SWITCH.getStatementLexeme(), Statement.SWITCH.getStatementName());
-        reservedWords.put(Statement.CASE.getStatementLexeme(), Statement.CASE.getStatementName());
-        reservedWords.put(Statement.DEFAULT.getStatementLexeme(), Statement.DEFAULT.getStatementName());*/
-
-        //#################################################
-
         //#################### SYMBOLS ####################
-        symbols.put('&', "OPERATOR_AND(LOGICAL)");
-        symbols.put('|', "OPERATOR_OR(LOGICAL)");
-        symbols.put('^', "OPERATOR_XOR(LOGICAL)");
-        symbols.put('=', "OPERATOR_ASSIGNMENT");
-        symbols.put('!', "OPERATOR_NOT");
-        symbols.put('<', "OPERATOR_LT");
-        symbols.put('>', "OPERATOR_GT");
-        symbols.put('~', "OPERATOR_NOT(BITWISE)");
-
-        symbols.put('/', "SLASH");
-
-        symbols.put('{', "LB");
-        symbols.put('}', "RB");
-        symbols.put('(', "LP");
-        symbols.put(')', "RP");
-        symbols.put('[', "LSB");
-        symbols.put(']', "RSB");
-
-        symbols.put(';', "SEMICOLON");
-        symbols.put(':', "COLON");
-
-        symbols.put('+', "OPERATOR_ADDITION");
-        symbols.put('-', "OPERATOR_SUBTRACTION");
-        symbols.put('*', "OPERATOR_MULTIPLICATION");
-        symbols.put('/', "OPERATOR_DIVISION");
-        symbols.put('%', "OPERATOR_MODULUS");
-
-        symbols.put('.', "FUNC_CALL");
-        symbols.put(',', "COMMA");
-        symbols.put('"', "STRING");
-        symbols.put('\'', "CHAR");
-        //#################################################
+        for (Symbol aSymbol : Symbol.values())
+            symbols.put(aSymbol.getSymbolCharacter(), aSymbol.name());
     }
 
     Lexer(String filePath) throws FileNotFoundException {
         try {
             myBuffer = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
         } catch (FileNotFoundException ex) {
-             LOGGER.error("[Lexer.java : 125] File not found.");
+            LOGGER.error("[Lexer.java : 125] File not found.");
             throw ex;
         }
     }
@@ -177,127 +128,112 @@ class Lexer {
     }
 
     //####################################################################################
-    private Token doCheckSym(char c) throws IOException {
+    private Token doCheckSym(String c) throws IOException {
         switch (c) {
-            case '&':
-                if (nextChar('&')) return new Word("OPERATOR_AND(CONDITIONAL)", "&&");
-                else return new Word(symbols.get(c), "&");
-            case '|':
-                if (nextChar('|')) return new Word("OPERATOR_OR(CONDITIONAL)", "||");
-                else return new Word(symbols.get(c), "|");
-            case '^':
-                return new Word(symbols.get(c), "^");
-            case '=':
-                if (nextChar('=')) return new Word("OPERATOR_EQ", "==");
-                else return new Word(symbols.get(c), "=");
-            case '!':
-                if (nextChar('=')) return new Word("OPERATOR_NEQ", "!=");
-                else return new Word(symbols.get(c), "!");
-            case '<':
-                if (nextChar('=')) return new Word("OPERATOR_LTE", "<=");
-                else if (nextChar('<')) return new Word("OPERATOR_SHIFT_LEFT", "<<");
-                else return new Word(symbols.get(c), "<");
-            case '>':
-                if (nextChar('=')) return new Word("OPERATOR_GTE", ">=");
-                else if (nextChar('>')) return new Word("OPERATOR_SHIFT_RIGHT", ">>");
-                else return new Word(symbols.get(c), ">");
-            case '~':
-                return new Word(symbols.get(c), "~");
-            case '{':
-                return new Word(symbols.get(c), "{");
-            case '}':
-                return new Word(symbols.get(c), "}");
-            case '(':
-                return new Word(symbols.get(c), "(");
-            case ')':
-                return new Word(symbols.get(c), ")");
-            case '[':
-                return new Word(symbols.get(c), "[");
-            case ']':
-                return new Word(symbols.get(c), "]");
-            case ';':
-                return new Word(symbols.get(c), ";");
-            case ':':
-                return new Word(symbols.get(c), ":");
-            case '+':
+            case "&":
+                if (nextChar('&'))
+                    return new Word(Symbol.OPERATOR_LOGICAL_AND.name(), Symbol.OPERATOR_LOGICAL_AND.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case "|":
+                if (nextChar('|'))
+                    return new Word(Symbol.OPERATOR_LOGICAL_OR.name(), Symbol.OPERATOR_LOGICAL_OR.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case "^":
+                return new Word(symbols.get(c), c);
+            case "=":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_EQUAL.name(), Symbol.OPERATOR_EQUAL.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case "!":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_NOT_EQUAL.name(), Symbol.OPERATOR_NOT_EQUAL.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case "<":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_LT_EQUAL.name(), Symbol.OPERATOR_LT_EQUAL.getSymbolCharacter());
+                else if (nextChar('<'))
+                    return new Word(Symbol.OPERATOR_SHIFT_LEFT.name(), Symbol.OPERATOR_SHIFT_LEFT.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case ">":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_GT_EQUAL.name(), Symbol.OPERATOR_LT_EQUAL.getSymbolCharacter());
+                else if (nextChar('>'))
+                    return new Word(Symbol.OPERATOR_SHIFT_RIGHT.name(), Symbol.OPERATOR_SHIFT_RIGHT.getSymbolCharacter());
+                else return new Word(symbols.get(c), c);
+            case "~":
+                return new Word(symbols.get(c), c);
+            case "{":
+                return new Word(symbols.get(c), c);
+            case "}":
+                return new Word(symbols.get(c), c);
+            case "(":
+                return new Word(symbols.get(c), c);
+            case ")":
+                return new Word(symbols.get(c), c);
+            case "[":
+                return new Word(symbols.get(c), c);
+            case "]":
+                return new Word(symbols.get(c), c);
+            case ";":
+                return new Word(symbols.get(c), c);
+            case ":":
+                return new Word(symbols.get(c), c);
+            case "+":
                 if (nextChar('=')) {
-
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("OPERATOR_ADDITION_EQ", "+=");
-
+                    return new Word(Symbol.OPERATOR_ADDITION_EQUAL.name(), Symbol.OPERATOR_ADDITION_EQUAL.getSymbolCharacter());
                 } else if (nextChar('+')) {
-                    return new Word("OPERATOR_INCREMENT", "++");
+                    return new Word(Symbol.OPERATOR_INCREMENT.name(), Symbol.OPERATOR_INCREMENT.getSymbolCharacter());
                 } else {
-                    return new Word(symbols.get(c), "+");
+                    return new Word(symbols.get(c), c);
                 }
-            case '-':
+            case "-":
                 if (nextChar('=')) {
-
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("OPERATOR_SUBTRACTION_EQ", "-=");
-
+                    return new Word(Symbol.OPERATOR_SUBTRACTION_EQUAL.name(), Symbol.OPERATOR_SUBTRACTION_EQUAL.getSymbolCharacter());
                 } else if (nextChar('-')) {
-                    return new Word("OPERATOR_DECREMENT", "--");
+                    return new Word(Symbol.OPERATOR_DECREMENT.name(), Symbol.OPERATOR_DECREMENT.getSymbolCharacter());
                 } else {
-                    return new Word(symbols.get(c), "-");
+                    return new Word(symbols.get(c), c);
                 }
-            case '*':
-                if (nextChar('=')) {
+            case "*":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_MULTIPLICATION_EQUAL.name(), Symbol.OPERATOR_MULTIPLICATION_EQUAL.getSymbolCharacter());
+                else
+                    return new Word(symbols.get(c), c);
 
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("OPERATOR_MULTIPLICATION_EQ", "*=");
-
-                } else {
-                    return new Word(symbols.get(c), "*");
-                }
-            case '/':
-                /*if (nextChar('/')) {
-
-                    //readNextLine();
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("COMMENT", "//");
-                */
+            case "/":
                 if (nextChar('/')) {
                     readNextLine();
-                    return new Word("COMMENT", "//");
-
+                    return new Word(Symbol.COMMENT.name(), Symbol.COMMENT.getSymbolCharacter());
                 } else if (nextChar('*')) {
                     do {
                         try {
                             nextChar();
                             if (peek == '*') {
                                 if (nextChar('/')) {
-                                    return new Word("MULTI_COMMENT", "/*...*/");
+                                    return new Word(Symbol.MULTI_COMMENT.name(), Symbol.MULTI_COMMENT.getSymbolCharacter());
                                 } // else continues
                             }
                         } catch (NullPointerException ex) {
-                            return new Word("MULTI_COMMENT", "/*");
+                            return new Word(Symbol.MULTI_COMMENT.name(), Symbol.MULTI_COMMENT.getSymbolCharacter());
+                            //return new Word("MULTI_COMMENT", "/*");
                         }
                     } while (true);
-                    // return new Word("START_MULTI_COMMENT", "/*");
                 } else if (nextChar('=')) {
-
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("OPERATOR_DIVISION_EQ", "/=");
-
+                    return new Word(Symbol.OPERATOR_DIVISION_EQUAL.name(), Symbol.OPERATOR_DIVISION_EQUAL.getSymbolCharacter());
                 } else {
-                    return new Word(symbols.get(c), "/");
+                    return new Word(symbols.get(c), c);
                 }
 
-            case '%':
-                if (nextChar('=')) {
-
-                    //currentLine = currentLine.substring(currentLine.length()); // read a new line to avoid Null..exception.
-                    return new Word("OPERATOR_MODULUS_EQ", "%=");
-
-                } else {
-                    return new Word(symbols.get(c), "%");
-                }
-            case '.':
-                return new Word(symbols.get(c), ".");
-            case ',':
-                return new Word(symbols.get(c), ",");
-            case '"':
+            case "%":
+                if (nextChar('='))
+                    return new Word(Symbol.OPERATOR_MODULUS_EQUAL.name(), Symbol.OPERATOR_MODULUS_EQUAL.getSymbolCharacter());
+                else
+                    return new Word(symbols.get(c), c);
+            case ".":
+                return new Word(symbols.get(c), c);
+            case ",":
+                return new Word(symbols.get(c), c);
+            case "\"":
                 StringBuilder myString = new StringBuilder();
                 do {
                     nextChar();
@@ -313,7 +249,7 @@ class Lexer {
                         myString.append(peek);
                     }
                 } while (true);
-            case '\'':
+            case "'":
                 StringBuilder myChar = new StringBuilder();
                 nextChar();
                 if (peek == '\\') { // for character literal, hex, unicode ex.'\x0058', '\u0058'
@@ -344,8 +280,8 @@ class Lexer {
         } catch (NullPointerException ex) {
             return null;
         }
-        if (symbols.containsKey(peek)) {
-            return doCheckSym(peek);
+        if (symbols.containsKey(String.valueOf(peek))) {
+            return doCheckSym(String.valueOf(peek));
         } else if (Character.isLetter(peek) || peek == '_') {
             do {
                 tokenString.append(peek);

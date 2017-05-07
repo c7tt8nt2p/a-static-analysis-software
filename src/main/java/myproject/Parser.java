@@ -61,10 +61,10 @@ public class Parser {
                     //Detect negative number.
                     String[] negativeNum = {"OPERATOR_ASSIGNMENT", "LP", "COMMA", "RETURN", "OPERATOR_ADDITION",
                             "OPERATOR_SUBTRACTION", "OPERATOR_MULTIPLICATION", "OPERATOR_DIVISION",
-                            "OPERATOR_MODULUS", "OPERATOR_INCREMENT", "OPERATOR_DECREMENT", "OPERATOR_ADDITION_EQ",
-                            "OPERATOR_SUBTRACTION_EQ", "OPERATOR_MULTIPLICATION_EQ", "OPERATOR_DIVISION_EQ",
+                            "OPERATOR_MODULUS", "OPERATOR_INCREMENT", "OPERATOR_DECREMENT", "OPERATOR_ADDITION_EQUAL",
+                            "OPERATOR_SUBTRACTION_EQUAL", "OPERATOR_MULTIPLICATION_EQUAL", "OPERATOR_DIVISION_EQUAL",
                             "OPERATOR_MODULUS_EQ", "OPERATOR_GT", "OPERATOR_LT", "OPERATOR_SHIFT_RIGHT",
-                            "OPERATOR_SHIFT_LEFT", "OPERATOR_GTE", "OPERATOR_LTE", "OPERATOR_EQ"};
+                            "OPERATOR_SHIFT_LEFT", "OPERATOR_GT_EQUAL", "OPERATOR_LT_EQUAL", "OPERATOR_EQUAL"};
                     //String[] nonNegativeNum = {"IDENTIFIER/UNDEFINED", "RP", "NUM", "REAL"};
                     for (String aString : negativeNum) {
                         if (lexemeTable.get(lexemeTable.size() - 2).getType().equalsIgnoreCase(aString)) {
@@ -417,7 +417,7 @@ public class Parser {
                 case 3:
                     if (aLexemeTable.getType().equalsIgnoreCase("REAL") ||
                             aLexemeTable.getType().equalsIgnoreCase("NUM") ||
-                            aLexemeTable.getType().equalsIgnoreCase("FUNC_CALL") || // For .xx and func call
+                            aLexemeTable.getType().equalsIgnoreCase(Symbol.DOT.name()) || // For .xx and func call
                             aLexemeTable.getType().equalsIgnoreCase("STRING") ||
                             aLexemeTable.getType().equalsIgnoreCase("CHAR")) {
                         currentState = 4;
@@ -696,7 +696,7 @@ public class Parser {
                 case 11:
                     if (aLexemeTable.getType().equalsIgnoreCase("REAL") ||
                             aLexemeTable.getType().equalsIgnoreCase("NUM") ||
-                            aLexemeTable.getType().equalsIgnoreCase("FUNC_CALL") || // For .xx and func call
+                            aLexemeTable.getType().equalsIgnoreCase(Symbol.DOT.name()) || // For .xx and func call
                             aLexemeTable.getType().equalsIgnoreCase("STRING") ||
                             aLexemeTable.getType().equalsIgnoreCase("CHAR")) {
                         currentState = 12;
