@@ -5,7 +5,7 @@ namespace TestApplication2{
 		bool isInitialized;
 		void Main(){
 			int x = 0;
-			if (x > 5) {
+			if (x > 5){
 				Console.WriteLine("OK");
 			} else if (x > 8) {
 				Console.WriteLine("NOT OK");

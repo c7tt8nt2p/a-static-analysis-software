@@ -1,43 +1,30 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
+import myproject.Symbol;
+
+import java.io.*;
+import java.nio.charset.Charset;
 
 
 public class TestFile {
 
 
     public static void main(String[] args) throws IOException {
-        FileReader fr = null;
-        LineNumberReader lnr = null;
-        String str;
-        int i;
+        int lineOfCode = 0;
+        String line;
+        try (InputStream fileInputStream = new FileInputStream("D:\\IdeaProjects\\a-static-analysis-software\\src\\main\\java\\myproject\\resources\\EX_Code.cs");
+             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
+             BufferedReader bufferedReader = new BufferedReader(inputStreamReader)
+        ) {
+            while ((line = bufferedReader.readLine()) != null) {
+                line = line.replaceAll("\\s+", "");
+                if ((line.length() == 0) ||
+                        line.length() == 1 && line.equals(Symbol.LB.getSymbolCharacter()))
+                    continue;
+                ++lineOfCode;
+                System.out.println(line.length());
+                System.out.println(line);
 
-        try{
-            // create new reader
-            fr = new FileReader("D:\\IdeaProjects\\SeniorProject_FX\\src\\com\\myproject\\resources\\EX_Code.cs");
-            lnr = new LineNumberReader(fr);
-
-            // read lines till the end of the stream
-            while((str=lnr.readLine())!=null)
-            {
-                i=lnr.getLineNumber();
-                System.out.print("("+i+")");
-
-                // prints string
-                System.out.print(str);
             }
-        }catch(Exception e){
-
-            // if any error occurs
-            e.printStackTrace();
-        }finally{
-
-            // closes the stream and releases system resources
-            if(fr!=null)
-                fr.close();
-            if(lnr!=null)
-                lnr.close();
+            System.out.println("LOC : " + lineOfCode);
         }
-
     }
 }

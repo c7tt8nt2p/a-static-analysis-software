@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -987,7 +988,7 @@ public class Parser {
                 doAddOperand(aParamType);
             }
         }
-        //Add paranthesis after method header (Source Code must be compiled without and errors).
+        //Add paranthesis after method header (Source Code must be compiled without any errors).
         doAddOperator("()");
     }
 
@@ -1527,16 +1528,24 @@ public class Parser {
     }
 
     public int getLOC() {
-        int totalLines = -1;
-
-        try (FileReader fileReader = new FileReader(filePath);
-             LineNumberReader lineReader = new LineNumberReader(fileReader)) {
-            while ((lineReader.readLine()) != null)
-                totalLines = lineReader.getLineNumber();
-        } catch (Exception e) {
-            LOGGER.error("Error during getLOC.");
-            e.printStackTrace();
+        int lineOfCode = 0;
+        String line;
+        try {
+            try (InputStream fileInputStream = new FileInputStream(filePath);
+                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, Charset.forName("UTF-8"));
+                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)
+            ) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    line = line.replaceAll("\\s+", "");
+                    if ((line.length() == 0) ||
+                            line.length() == 1 && line.equals(Symbol.LB.getSymbolCharacter()))
+                        continue;
+                    ++lineOfCode;
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.error("Error during getting LOC");
         }
-        return totalLines;
+        return lineOfCode;
     }
 }
